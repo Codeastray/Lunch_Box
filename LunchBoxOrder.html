@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>給我好好吃便當!</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+
+	<style>
+		@font-face {
+			font-family: 'inter';
+			src: url('Fonts/setofont.ttf') format('truetype');
+		}
+
+		@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+
+		.like {
+			font-size: 3.5em;
+			font-family: inter, serif;
+			color: blueviolet;
+		}
+
+		.leftbtn {
+
+			transform: rotate(20deg);
+		}
+
+		.rightbtn {
+			transform: rotate(20deg);
+		}
+	</style>
+	<script>
+
+		var price_1;
+		var price_2;
+		var number_1;
+		var number_2;
+		$(function () {
+
+			$.ajax({
+				type: "GET",
+				url: "LBO_name_price_R_api.php",
+				// async: false,
+				dataType: "json",
+				success: showdata_getName,
+				error: function () {
+					alert("error-LBO_name_price_R_api.php");
+				}
+			});
+
+
+			function showdata_getName(data) {
+				console.log(data);
+				console.log(data.data[0].lunch_name1);
+				console.log(data.data[0].price_1);
+				if (data.state) {
+					// alert(data.message);
+					$("#name1").html(data.data[0].lunch_name1);
+					$("#name2").html(data.data[0].lunch_name2);
+
+					$("#lunch_1st").html(data.data[0].lunch_name1);
+					$("#lunch_2nd").html(data.data[0].lunch_name2);
+
+					$("#price_1st").html(data.data[0].price_1);
+					$("#price_2nd").html(data.data[0].price_2);
+					price_1 = data.data[0].price_1;
+					price_2 = data.data[0].price_2;
+					$("#date").html(data.data[0].date);
+					// $("#total_1").html(data.data[0].price_1); //數量
+					// $("#total_2").html(data.data[0].price_2);
+					$("#yummy1").val(data.data[0].lunch_name1);
+					$("#yummy2").val(data.data[0].lunch_name2);
+				} else {
+					alert(data.message);
+				}
+
+				var dataJSON_l = {};
+				dataJSON_l["lunch_1_number"] = $("#yummy1").val();
+				dataJSON_l["lunch_2_number"] = $("#yummy2").val();
+
+
+
+				// console.log(JSON.stringify(dataJSON_l));
+
+
+				$.ajax({
+					type: "POST",
+					url: "LBO_number_R_api.php",
+					data: JSON.stringify(dataJSON_l),
+					dataType: "json",
+					success: showdata_getNumber,
+					error: function () {
+						alert("error-LBO_number_R_api.php");
+					}
+				});
+
+			}
+
+			//辨別座輸入字數是否符合規定
+			// $("#seatnumber").bind("input propertychange", function(){
+			// 	console.log($("#seatnumber").val().length);
+			// 	if($("#seatnumber").val().length > 0 && $("#seatnumber").val().length < 3
+			// 		&& $("#seatnumber").val()>0 &&  $("#seatnumber").val()<28 ){	
+			// 		$("#err_seatnumber").html("座號名稱字數符合規定!");
+			// 		$("#err_seatnumber").css("color", "green");
+			// 		flag_seatnumber = true;
+			// 	}else{
+			// 		$("#err_seatnumber").html("座號名稱字數不符合規定!");
+			// 		$("#err_seatnumber").css("color", "red");
+			// 		flag_seatnumber = false;
+			// 	}
+			// });
+
+
+
+			var chosenlunch;
+			var need = "一個";
+
+
+			$("#yummy1").bind("click", function () {
+				chosenlunch = $("#yummy1").val();
+
+
+			});
+			$("#yummy2").bind("click", function () {
+				chosenlunch = $("#yummy2").val();
+
+			});
+			$("#ok_btn").bind("click", function () {
+				var dataJSON = {};
+				dataJSON["stu_ID"] = $("#seatnumber").val();
+				dataJSON["lunch_1"] = chosenlunch;
+				dataJSON["lunch_2"] = need;
+				dataJSON["ps"] = $("#ps").val();
+				console.log(JSON.stringify(dataJSON));
+
+
+
+
+
+				$.ajax({
+					type: "POST",
+					url: "insert_LBO.php",
+					// data: {stu_ID: $("#seatnumber").val(), lunch_1: chosenlunch },
+					data: JSON.stringify(dataJSON),
+					dataType: "json",
+					contentType: "application/json;charset=utf-8",
+					success: showdata,
+					error: function () {
+						alert("error-insert_LBO.php");
+					}
+				});
+				if (chosenlunch != null) {
+					if ($("#seatnumber").val().length > 0 && $("#seatnumber").val().length < 3
+						&& $("#seatnumber").val() > 0 && $("#seatnumber").val() < 31) {
+						if ($("#ps").val().length >= 0 && $("#ps").val().length < 9) {
+							document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+						} else {
+							Javascript: alert('買個便當而已，有多少事要交代?');
+							// // $("#err_seatnumber").html("座號名稱字數符合規定!");
+							// // $("#err_seatnumber").css("color", "green");
+							// // flag_seatnumber = true;	
+
+							document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+							// //$('#ok_btn').addClass('ui-disabled');     
+						}
+					} else if ($("#seatnumber").val() == "0" || $("#seatnumber").val() == "00" || $("#seatnumber").val() == "000" || $("#seatnumber").val() == "0000" || $("#seatnumber").val() == "00000") {
+						Javascript: alert('早猜到你連0號都想試試看!');
+						document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+						flag_seatnumber = false;
+					} else if ($("#seatnumber").val() == 0) {
+						Javascript: alert('不輸入座號，你是老師逆?');
+						flag_seatnumber = false;
+					} else if ($("#seatnumber").val() >= 31) {
+						Javascript: alert('孩子你怎麼那麼不聽話，亂輸入呢?');
+						$("#seatnumber").val("");
+						flag_seatnumber = false;
+						document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+					} else if (typeof ($("#seatnumber").val()) != "number") {
+						Javascript: alert('I 服了 you,小數點你都拿來試!');
+						$("#seatnumber").val("");
+						flag_seatnumber = false;
+						document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+					}
+				} else {
+					Javascript: alert('便當不選，吃空氣嗎?');
+					$("#seatnumber").val("");
+				}
+				function isFloat(value) {
+					if (
+						typeof value === 'number' &&
+						!Number.isNaN(value) &&
+						!Number.isInteger(value)
+					) {
+						return true;
+					}
+
+					return false;
+				}
+
+			});
+		});
+
+		function showdata(data) {
+			console.log(data);
+
+			if (data.state) {
+				alert(data.message);
+				var dataJSON_l = {};
+
+				dataJSON_l["lunch_1_number"] = $("#yummy1").val();
+				dataJSON_l["lunch_2_number"] = $("#yummy2").val();
+
+
+
+				// console.log(JSON.stringify(dataJSON_l));
+
+
+				$.ajax({
+					type: "POST",
+					url: "LBO_number_R_api.php",
+					data: JSON.stringify(dataJSON_l),
+					dataType: "json",
+					success: showdata_getNumber,
+					error: function () {
+						alert("error-LBO_number_R_api.php");
+					}
+				});
+
+			} else {
+				// alert(data.message);
+			}
+		}
+		function showdata_getNumber(data) {
+			if (data.state) {
+				console.log(data);
+				console.log(data.data[0]["COUNT(No_1_dish)"]);
+				console.log(data.data[1]["COUNT(No_1_dish)"]);
+				number_1 = data.data[0]["COUNT(No_1_dish)"];
+				number_2 = data.data[1]["COUNT(No_1_dish)"];
+				console.log(number_1);
+
+				// alert(data.message);
+				$("#number_1").html(number_1);
+				$("#number_2").html(number_2);
+				$("#total_1").html(number_1 * price_1);
+				$("#total_2").html(number_2 * price_2);
+
+
+			} else {
+				alert(data.message);
+			}
+		}
+	</script>
+	<script>
+		$(function () {
+			$.ajax({
+				type: "GET",
+				url: "output_LBO",
+				dataType: "json",
+				success: showdata_show_table,
+				error: function () {
+					alert("error-output_LBO");
+				}
+			});
+		});
+
+		function showdata_show_table(data) {
+
+			console.log(data);
+			for (var i = 0; i < data.length; i++) {
+
+				if (data[i].student_ID == "29") {
+					var finalmeal = '<li><a href="#"><h3>明宏老師</h3><p style="font-size: large;">我想吃<span style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+					$("#showmsg").append(finalmeal);
+				} else if (data[i].student_ID == "30") {
+
+					var finalmeal = '<li><a href="#"><h3>信存老師</h3><p style="font-size: large;">我想吃<span style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+					$("#showmsg").append(finalmeal);
+
+				} else {
+					if (data[i].PS == null) {
+						data[i].PS = "無";
+						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+						$("#showmsg").append(finalmeal);
+
+					} else {
+						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+						$("#showmsg").append(finalmeal);
+					}
+				}
+			}
+			$("#showmsg").listview("refresh");
+
+		}
+		$(document).on("pagecreate", "#home", function () {
+
+			$(document).on("swipeleft swiperight", "#home", function (e) {
+				// documet:文件 on:監聽 pagecreate:產生頁面→"#home" function(做以下動作:)
+
+				if ($(".ui-page-active").jqmData("panel") !== "open") { //如果panel關閉做以下動作
+					if (e.type === "swipeleft") {
+						$("#my_right_panel").panel("open"); //如果滑左邊，右側panel會出現
+					} else if (e.type === "swiperight") {
+						$("#my_left_panel").panel("open"); //如果滑右邊，左側panel會出現
+					}
+				}
+			});
+		});
+
+
+	</script>
+
+
+
+</head>
+
+<body>
+	<!-- <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script> -->
+	<div data-role="page" id="home">
+		<div data-role="panel" id="my_left_panel" data-display="overlay">
+			<p style="font-size: large;"  style="color: rgb(225, 228, 20);">署內福利社，請自便</p>
+			<div><img src="images/shop.png" alt="" width="100%"></div>
+		</div>
+		<div data-role="panel" id="#" data-display="overlay" data-position="right">
+			<p>This is right panel!!</p>
+		</div>
+		<h1>隱藏菜單,向右滑</h1>
+		<div data-role="header" data-position="fixed" data-theme="b">
+			
+			<h1>我知道你餓了</h1>
+		</div>
+		<div data-role="main" class="ui-content">
+			<div class="like">你尬意哪一種口味?</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<a href=""><img src="http://fakeimg.pl/350x200/00CED1/FFF/?text=img+placeholder" alt=""
+							width="99%"></a>
+
+					<div data-role="fieldcontain" class="leftbtn">
+						<fieldset data-role="controlgroup" data-type="horizontal">
+							<input type="radio" name="lunchbox" value="雞腿便當" id="yummy1">
+							<label for="yummy1" id="name1"></label>
+						</fieldset>
+					</div>
+				</div>
+
+				<div class="ui-block-b">
+					<a href=""><img src="http://fakeimg.pl/350x200/00CED1/FFF/?text=img+placeholder" alt=""
+							width="99%"></a>
+					<div data-role="fieldcontain" class="rightbtn">
+						<fieldset data-role="controlgroup" data-type="horizontal">
+							<input type="radio" name="lunchbox" value="牛排便當" id="yummy2">
+							<label for="yummy2" id="name2"></label>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+			<div data-role="fieldcontain" data-inset="true">
+				<label for="seatnumber">請填入座號</label>
+				<input type="number" id="seatnumber" name="seatnumber" placeholder="填入你的座號:1~28號 明宏老師:29 信存老師:30!">
+			</div>
+			<div id="err_seatnumber"></div>
+			<div data-role="fieldcontain" data-inset="true">
+				<label for="ps">備註</label>
+				<input type="text" id="ps" name="ps" placeholder="備註 字數1~8">
+			</div>
+			<div>
+
+				<a href="" data-role="button" data-theme="b" id="ok_btn">送出</a>
+			</div>
+
+			<table data-role="table" class="ui-responsive table-stroke">
+				<thead>
+					<tr>
+						<th>編號</th>
+						<th> <span style="background: rgb(245, 227, 166);"> 品名</span></th>
+						<th>數量</th>
+						<th>價錢</th>
+						<th>總額</th>
+						<th>訂便當日期</th>
+
+					</tr>
+				</thead>
+				<tbody id="tbody">
+					<tr>
+						<td>1</td>
+						<td><span id="lunch_1st" style="background: rgb(245, 227, 166);"></span></td>
+						<td><span id="number_1"></span></td>
+						<td><span id="price_1st"></span></td>
+						<td><span id="total_1" style="color: rgb(249, 130, 26);"></span></td>
+						<td><span id="date"></span></td>
+
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><span id="lunch_2nd" style="background: rgb(245, 227, 166);"></span></td>
+						<td><span id="number_2"></td>
+						<td><span id="price_2nd"></span></td>
+						<td><span id="total_2" style="color: rgb(249, 130, 26);"></span></td>
+
+					</tr>
+
+				</tbody>
+			</table>
+
+
+			<ul data-role="listview" data-inset="true" id="showmsg">
+				<!-- <li>
+					<a href="#">
+						<h3>商店名稱</h3>
+						<p>備註</p>
+						<p>數量</p>
+						<p>數量</p>
+					</a>
+				</li> -->
+			</ul>
+
+
+
+			<div data-role="footer" data-position="fixed" data-theme="b" data-position="fixed">
+				<h1>訂完不要賴帳喔~~~ ※嚴禁拿錯便當</h1>
+			</div>
+		</div>
+
+		
+	
+</body>
+
+</html>
