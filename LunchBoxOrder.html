@@ -175,7 +175,7 @@
 						document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
 						flag_seatnumber = false;
 					} else if ($("#seatnumber").val() == 0) {
-						Javascript: alert('不輸入座號，你是老師逆?');
+						Javascript: alert('不輸入號碼，你是誰?');
 						flag_seatnumber = false;
 					} else if ($("#seatnumber").val() >= 31) {
 						Javascript: alert('孩子你怎麼那麼不聽話，亂輸入呢?');
@@ -291,13 +291,13 @@
 					if (data[i].PS == "") {
 						data[i].PS = "無";
 						console.log(data[i].student_ID);
-						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
+						var finalmeal = '<li><a href="#"><h3>號碼:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
 						$("#showmsg").append(finalmeal);
 
 					} else {
 						console.log(data[i].student_ID);
 						console.log(data[i].PS);
-						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
+						var finalmeal = '<li><a href="#"><h3>號碼:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
 						$("#showmsg").append(finalmeal);
 					}
 				}
@@ -403,8 +403,8 @@
 				</div>
 			</div>
 			<div data-role="fieldcontain" data-inset="true">
-				<label for="seatnumber">請填入座號</label>
-				<input type="number" id="seatnumber" name="seatnumber" placeholder="填入你的座號:1~28號 明宏老師:29 信存老師:30!">
+				<label for="seatnumber">請填入號碼</label>
+				<input type="number" id="seatnumber" name="seatnumber" placeholder="填入你的ID:1~28號">
 			</div>
 			<div id="err_seatnumber"></div>
 			<div data-role="fieldcontain" data-inset="true">
