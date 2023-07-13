@@ -4,9 +4,9 @@
 		$mydata = json_decode($data, true);
 
 		 $servername = "localhost";
-         $username = "id19291385_user";
-         $password = "s5ygkj2g-T*ja&{X";
-         $dbname = "id19291385_memberdb";
+         $username = "id21028457_alltheworkdonedbuser";
+         $password = "#Db5720Db#";
+         $dbname = "id21028457_alltheworkdonedb";
 				
 		            $conn = mysqli_connect($servername, $username, $password,$dbname);
 				      // Check connection

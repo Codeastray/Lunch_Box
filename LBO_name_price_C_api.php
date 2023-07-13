@@ -29,7 +29,7 @@
       $sql = "INSERT INTO lunch_name (Lunch_Name1, Lunch_Name2, Price_1,Price_2,Date)
       VALUES ('$name1', '$name2', '$price1', '$price2','$date')";
 
-      if (execute_sql($conn,"id19291385_memberdb",$sql)) {
+      if (execute_sql($conn,"id21028457_alltheworkdonedb",$sql)) {
         echo '{"state": true, "message":"新增成功!"}';
       } else {
         echo '{"state": false, "message":"新增失敗"}';

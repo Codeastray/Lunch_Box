@@ -2,7 +2,7 @@
 //建立連線
 function create_connect(){
 
-		$conn = mysqli_connect("localhost", "id19291385_user", "s5ygkj2g-T*ja&{X")
+		$conn = mysqli_connect("localhost", "id21028457_alltheworkdonedbuser", "#Db5720Db#")
 		 or die("連線錯誤!".mysqli_connect_error());
 		 mysqli_query($conn, "SET NAMES utf8");
 		 return $conn;

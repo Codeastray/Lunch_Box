@@ -11,10 +11,10 @@ $mydata = json_decode($data, true);
  $lunch_2_number = $mydata["lunch_2_number"];
 
  $sql = "SELECT COUNT(No_1_dish) FROM order_meal WHERE No_1_dish LIKE '%$lunch_1_number%'";
- $result1 = execute_sql($conn, "lunchbox", $sql);
+ $result1 = execute_sql($conn, "id21028457_alltheworkdonedb", $sql);
  
  $sql = "SELECT COUNT(No_1_dish) FROM order_meal WHERE No_1_dish LIKE '%$lunch_2_number%'";
- $result2 = execute_sql($conn, "lunchbox", $sql);
+ $result2 = execute_sql($conn, "id21028457_alltheworkdonedb", $sql);
 if(mysqli_num_rows($result2) > 0){
 
 

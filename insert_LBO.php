@@ -33,7 +33,7 @@ if (
     $sql = "INSERT INTO order_meal (student_ID, No_1_dish, No_2_dish,PS)
       VALUES ('$ID', '$box1', '$box2','$ps')";
 
-    if (execute_sql($conn, "id19291385_memberdb", $sql)) {
+    if (execute_sql($conn, "id21028457_alltheworkdonedb", $sql)) {
       echo '{"state": true, "message":"新增成功!"}';
     } else {
       echo '{"state": false, "message":"新增失敗"}';

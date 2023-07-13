@@ -37,13 +37,40 @@
                     }
                 }
             });
+
+            $("#delete").bind("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "LBO_name_price_D_api.php",
+                    // data: JSON.stringify(dataJSON),
+                    dataType: "json",
+                    success: showdata_delete,
+                    error: function () {
+                        alert("error-LBO_name_price_C_api.php");
+                    }
+                });
+            });
+            function showdata_delete(data) {
+                    console.log(data);
+                    if (data.state) {
+                        https://alltheworkdone.000webhostapp.com/LunchBox/LBO_name_price.html
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                }
+
         });
+        function a(){
+		location.href="https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html"
+	 }
     </script>
 </head>
 
 <body>
     <div data-role="page" id="home">
         <div data-role="header" data-theme="b">
+            <a href="#" onclick="a()" class="ui-btn-right">訂便當首頁</a>
             <h1>首頁</h1>
         </div>
         <div role="main" class="ui-content">
@@ -71,10 +98,10 @@
 
             <div class="ui-grid-a">
                 <div class="ui-block-a">
-                    <a href="" class="my-btn" data-role="button" data-icon="delete" id="cancel">取消</a>
+                    <a href=""  data-role="button" data-icon="delete" id="delete" >清空欄位/後端資料</a>
                 </div>
                 <div class="ui-block-b">
-                    <a href="" data-role="button" data-theme="b" data-icon="mail" id="send">送出</a>
+                    <a href="" data-role="button" data-theme="b" data-icon="mail" id="send" >送出</a>
                 </div>
             </div>
         </div>

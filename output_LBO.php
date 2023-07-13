@@ -5,7 +5,7 @@
 //建立mysql執行的指令
 
 $sql = "SELECT student_ID, No_1_dish,No_2_dish,PS FROM order_meal";
-$result =execute_sql($conn,"id19291385_memberdb",$sql);
+$result =execute_sql($conn,"id21028457_alltheworkdonedb",$sql);
 
 $mydata = array();
 

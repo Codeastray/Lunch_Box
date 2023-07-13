@@ -42,6 +42,7 @@
 		var number_2;
 		$(function () {
 
+
 			$.ajax({
 				type: "GET",
 				url: "LBO_name_price_R_api.php",
@@ -159,19 +160,19 @@
 					if ($("#seatnumber").val().length > 0 && $("#seatnumber").val().length < 3
 						&& $("#seatnumber").val() > 0 && $("#seatnumber").val() < 31) {
 						if ($("#ps").val().length >= 0 && $("#ps").val().length < 9) {
-							document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+							document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
 						} else {
 							Javascript: alert('買個便當而已，有多少事要交代?');
 							// // $("#err_seatnumber").html("座號名稱字數符合規定!");
 							// // $("#err_seatnumber").css("color", "green");
 							// // flag_seatnumber = true;	
 
-							document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+							document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
 							// //$('#ok_btn').addClass('ui-disabled');     
 						}
 					} else if ($("#seatnumber").val() == "0" || $("#seatnumber").val() == "00" || $("#seatnumber").val() == "000" || $("#seatnumber").val() == "0000" || $("#seatnumber").val() == "00000") {
 						Javascript: alert('早猜到你連0號都想試試看!');
-						document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+						document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
 						flag_seatnumber = false;
 					} else if ($("#seatnumber").val() == 0) {
 						Javascript: alert('不輸入座號，你是老師逆?');
@@ -180,12 +181,12 @@
 						Javascript: alert('孩子你怎麼那麼不聽話，亂輸入呢?');
 						$("#seatnumber").val("");
 						flag_seatnumber = false;
-						document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+						document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
 					} else if (typeof ($("#seatnumber").val()) != "number") {
 						Javascript: alert('I 服了 you,小數點你都拿來試!');
 						$("#seatnumber").val("");
 						flag_seatnumber = false;
-						document.location.href = "http://localhost/LunchBox/LunchBoxOrder.html";
+						document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
 					}
 				} else {
 					Javascript: alert('便當不選，吃空氣嗎?');
@@ -256,12 +257,13 @@
 				alert(data.message);
 			}
 		}
+
 	</script>
 	<script>
 		$(function () {
 			$.ajax({
 				type: "GET",
-				url: "output_LBO",
+				url: "output_LBO.php",
 				dataType: "json",
 				success: showdata_show_table,
 				error: function () {
@@ -276,44 +278,81 @@
 			for (var i = 0; i < data.length; i++) {
 
 				if (data[i].student_ID == "29") {
-					var finalmeal = '<li><a href="#"><h3>明宏老師</h3><p style="font-size: large;">我想吃<span style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+					console.log(data[i].student_ID);
+					var finalmeal = '<li><a href="#"><h3>明宏老師</h3><p style="font-size: large;">我想吃<span style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
 					$("#showmsg").append(finalmeal);
 				} else if (data[i].student_ID == "30") {
+					console.log(data[i].student_ID);
 
-					var finalmeal = '<li><a href="#"><h3>信存老師</h3><p style="font-size: large;">我想吃<span style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+					var finalmeal = '<li><a href="#"><h3>信存老師</h3><p style="font-size: large;">我想吃<span style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
 					$("#showmsg").append(finalmeal);
 
 				} else {
-					if (data[i].PS == null) {
+					if (data[i].PS == "") {
 						data[i].PS = "無";
-						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+						console.log(data[i].student_ID);
+						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
 						$("#showmsg").append(finalmeal);
 
 					} else {
-						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p></a></li>'
+						console.log(data[i].student_ID);
+						console.log(data[i].PS);
+						var finalmeal = '<li><a href="#"><h3>座號:' + data[i].student_ID + '</h3><p style="font-size: large;">我想吃<span  style="color: crimson;">' + data[i].No_1_dish + '</span></p><p>便當數量:' + data[i].No_2_dish + '</p><p>備註:' + data[i].PS + '</p><button class="ui-btn-right" id ="delete_btn"  data-id="' + data[i].student_ID + '">刪除</button></a></li>'
 						$("#showmsg").append(finalmeal);
 					}
 				}
 			}
+
 			$("#showmsg").listview("refresh");
 
-		}
-		$(document).on("pagecreate", "#home", function () {
+			$("#showmsg #delete_btn").bind("click", function () {
+				if (confirm("確認刪除訂購?: " + $(this).data("id") + "號?")) {
+					var jsonData = {};
+					console.log($(this).data("id"));
+					jsonData["student_ID"] = $(this).data("id");
+					
 
-			$(document).on("swipeleft swiperight", "#home", function (e) {
-				// documet:文件 on:監聽 pagecreate:產生頁面→"#home" function(做以下動作:)
-
-				if ($(".ui-page-active").jqmData("panel") !== "open") { //如果panel關閉做以下動作
-					if (e.type === "swipeleft") {
-						$("#my_right_panel").panel("open"); //如果滑左邊，右側panel會出現
-					} else if (e.type === "swiperight") {
-						$("#my_left_panel").panel("open"); //如果滑右邊，左側panel會出現
-					}
+					$.ajax({
+						type: "POST",
+						url: "LBO_D.php",
+						data: JSON.stringify(jsonData),
+						dataType: "json",
+						success: showdata_delete,
+						error: function () {
+							alert("error-LBO_D.php");
+						},
+					});
 				}
 			});
-		});
 
 
+		}
+		function showdata_delete(data) {
+			if (data.state) {
+				alert(data.message);
+				document.location.href = "https://alltheworkdone.000webhostapp.com/LunchBox/LunchBoxOrder.html";
+			} else {
+				alert(data.message);
+			}
+		}
+			$(document).on("pagecreate", "#home", function () {
+
+				$(document).on("swipeleft swiperight", "#home", function (e) {
+					// documet:文件 on:監聽 pagecreate:產生頁面→"#home" function(做以下動作:)
+
+					if ($(".ui-page-active").jqmData("panel") !== "open") { //如果panel關閉做以下動作
+						if (e.type === "swipeleft") {
+							$("#my_right_panel").panel("open"); //如果滑左邊，右側panel會出現
+						} else if (e.type === "swiperight") {
+							$("#my_left_panel").panel("open"); //如果滑右邊，左側panel會出現
+						}
+					}
+				});
+			});
+
+     function a(){
+		location.href="https://alltheworkdone.000webhostapp.com/LunchBox/LBO_name_price.html"
+	 }
 	</script>
 
 
@@ -326,7 +365,7 @@
 	<script src="js/jquery.mobile-1.4.5.min.js"></script> -->
 	<div data-role="page" id="home">
 		<div data-role="panel" id="my_left_panel" data-display="overlay">
-			<p style="font-size: large;"  style="color: rgb(225, 228, 20);">署內福利社，請自便</p>
+			<p style="font-size: large;" style="color: rgb(225, 228, 20);">署內福利社，請自便</p>
 			<div><img src="images/shop.png" alt="" width="100%"></div>
 		</div>
 		<div data-role="panel" id="#" data-display="overlay" data-position="right">
@@ -334,14 +373,14 @@
 		</div>
 		<h1>隱藏菜單,向右滑</h1>
 		<div data-role="header" data-position="fixed" data-theme="b">
-			
+			<a href="#" onclick="a()" class="ui-btn-right">要吃什麼便當?</a>
 			<h1>我知道你餓了</h1>
 		</div>
 		<div data-role="main" class="ui-content">
 			<div class="like">你尬意哪一種口味?</div>
 			<div class="ui-grid-a">
 				<div class="ui-block-a">
-					<a href=""><img src="http://fakeimg.pl/350x200/00CED1/FFF/?text=img+placeholder" alt=""
+					<a href=""><img src="images/lunch.jpg" alt=""
 							width="99%"></a>
 
 					<div data-role="fieldcontain" class="leftbtn">
@@ -353,7 +392,7 @@
 				</div>
 
 				<div class="ui-block-b">
-					<a href=""><img src="http://fakeimg.pl/350x200/00CED1/FFF/?text=img+placeholder" alt=""
+					<a href=""><img src="images/lunch.jpg" alt=""
 							width="99%"></a>
 					<div data-role="fieldcontain" class="rightbtn">
 						<fieldset data-role="controlgroup" data-type="horizontal">
@@ -430,8 +469,8 @@
 			</div>
 		</div>
 
-		
-	
+
+
 </body>
 
 </html>
